@@ -1,5 +1,6 @@
 // Initialize express
 const express = require('express');
+const methodOverride = require('method-override');
 const app = express();
 
 // INITIALIZE BODY-PARSER AND ADD IT TO APP
@@ -19,6 +20,9 @@ const hbs = exphbs.create({
 // The following line must appear AFTER const app = express() and before your routes!
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// override with POST having ?_method=DELETE or ?_method=PUT
+app.use(methodOverride('_method'));
+
 
 app.engine('handlebars', hbs.engine);
 
@@ -27,33 +31,70 @@ app.set('view engine', 'handlebars');
 
 // OUR MOCK ARRAY OF PROJECTS
 var hikes = [
-    { name: "I am your first hike", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1464852045489-bccb7d17fe39?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80" },
-    { name: "I am your second hike", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1464852045489-bccb7d17fe39?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80" },
-    { name: "I am your third hike", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1464852045489-bccb7d17fe39?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80" }
+    { name: "Yosemite National Park", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1548625361-1adcab316530?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" },
+    { name: "Joshua Tree National Park", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1585094482292-22b9ffb54d32?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60" },
+    { name: "Zion National Park", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1504827910875-50c950d5d13f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60" }
   ]
   
 
 // Index
 app.get('/', (req, res) => {
-    models.Hike.findAll({ order: [['createdAt', 'DESC']] }).then(hikes => {
-      res.render('hikes-index', { hikes: hikes });
-    })
+    res.render('hikes-index', { hikes: hikes });
 })
+// app.get('/', (req, res) => {
+//     models.Hike.findAll({ order: [['createdAt', 'DESC']] }).then(hikes => {
+//       res.render('hikes-index', { hikes: hikes });
+//     })
+// })
   
 // CREATE
 app.post('/hikes', (req, res) => {
     models.Hike.create(req.body).then(hike => {
-      res.redirect(`/`);
+        // Redirect to hikes/:id
+      res.redirect(`/hikes/${hike.id}`);
     }).catch((err) => {
       console.log(err)
     });
-  })
+})
 
 // NEW
 app.get('/hikes/new', (req, res) => {
     res.render('hikes-new', {});
 })
 
+// SHOW
+app.get('/hikes/:id', (req, res) => {
+    // Search for the hike by its id that was passed in via req.params
+    models.Hike.findByPk(req.params.id).then((hike) => {
+      // If the id is for a valid hike, show it
+      res.render('hikes-show', { hike: hike })
+    }).catch((err) => {
+      // if the id was for a hike not in our db, log an error
+      console.log(err.message);
+    })
+})
+
+// EDIT
+app.get('/hikes/:id/edit', (req, res) => {
+    models.Hike.findByPk(req.params.id).then((hike) => {
+      res.render('hikes-edit', { hike: hike });
+    }).catch((err) => {
+      console.log(err.message);
+    })
+});
+
+// UPDATE
+app.put('/hikes/:id', (req, res) => {
+    models.Hike.findByPk(req.params.id).then(hike => {
+      hike.update(req.body).then(hike => {
+        res.redirect(`/hikes/${req.params.id}`);
+      }).catch((err) => {
+        console.log(err);
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
+});
 
 // Choose a port to listen on
 const port = process.env.PORT || 3000;

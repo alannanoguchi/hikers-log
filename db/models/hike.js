@@ -5,8 +5,6 @@ module.exports = (sequelize, DataTypes) => {
     desc: DataTypes.TEXT,
     imgUrl: DataTypes.STRING //add this line (don't forget the comma above!)
   }, {});
-  // Hike.associate = function(models) {
-  //   Hike.hasMany(models.Rsvp);
-  // };
+
   return Hike;
 };

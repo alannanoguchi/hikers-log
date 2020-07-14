@@ -1,26 +1,8 @@
-<!-- views/events-new.handlebars -->
+<!-- views/hikes-new.handlebars -->
 
-<form method="POST" action="/events">
-  <fieldset>
-    <legend>New Hike</legend>
-    <!-- Name -->
-    <p>
-      <label for="title">Location</label><br>
-      <input type="text" name="title" />
-    </p>
-    <p>
-    <label for="imgUrl">Image Url</label><br>
-        <input type="text" placeholder="" name="imgUrl" />
-    </p>
-    <p>
-      <label for="desc">Description</label><br>
-      <input type="text" name="desc" />
-    </p>
-  </fieldset>
-
-  <!-- BUTTON -->
-  <p>
-    <button type="submit">Add</button>
-  </p>
-
+<form action="/hikes" method="post">
+  {{> hikes-form }}
+  <div class="text-right">
+    <button type="submit" class="btn btn-primary" name="button">Save</button>
+  </div>
 </form>
