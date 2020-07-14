@@ -31,21 +31,31 @@ app.set('view engine', 'handlebars');
 
 // OUR MOCK ARRAY OF PROJECTS
 var hikes = [
-    { name: "Yosemite National Park", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1548625361-1adcab316530?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" },
-    { name: "Joshua Tree National Park", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1585094482292-22b9ffb54d32?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60" },
-    { name: "Zion National Park", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1504827910875-50c950d5d13f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60" }
+    { name: "California", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1548625361-1adcab316530?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" },
+    { name: "Washington", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1583295598793-1d1c520ad40c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60" },
+    { name: "Oregon", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1548008807-49e00c814b31?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60" }
   ]
   
 
-// Index
-app.get('/', (req, res) => {
-    res.render('hikes-index', { hikes: hikes });
+// Index using async
+app.get('/', async (req, res) => {
+    try {
+        hikes = await models.Event.findAll();
+        return res.render('hikes-index', { hikes:hikes });
+    } catch(err) {
+        return console.log(err)
+    }
 })
+// app.get('/', (req, res) => {
+//     res.render('hikes-index', { hikes: hikes });
+// })
 // app.get('/', (req, res) => {
 //     models.Hike.findAll({ order: [['createdAt', 'DESC']] }).then(hikes => {
 //       res.render('hikes-index', { hikes: hikes });
 //     })
 // })
+
+
   
 // CREATE
 app.post('/hikes', (req, res) => {
@@ -95,6 +105,18 @@ app.put('/hikes/:id', (req, res) => {
       console.log(err);
     });
 });
+
+// DELETE
+app.delete('/hikes/:id', (req, res) => {
+    models.Hike.findByPk(req.params.id).then(hike => {
+      hike.destroy();
+      res.redirect(`/`);
+    }).catch((err) => {
+      console.log(err);
+    });
+})
+
+
 
 // Choose a port to listen on
 const port = process.env.PORT || 3000;
