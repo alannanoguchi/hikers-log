@@ -36,26 +36,6 @@ var hikes = [
     { name: "Oregon", desc: "A great event that is super fun to look at and good", imgUrl: "https://images.unsplash.com/photo-1548008807-49e00c814b31?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60" }
   ]
   
-
-// Index using async
-app.get('/', async (req, res) => {
-    try {
-        hikes = await models.Event.findAll();
-        return res.render('hikes-index', { hikes:hikes });
-    } catch(err) {
-        return console.log(err)
-    }
-})
-// app.get('/', (req, res) => {
-//     res.render('hikes-index', { hikes: hikes });
-// })
-// app.get('/', (req, res) => {
-//     models.Hike.findAll({ order: [['createdAt', 'DESC']] }).then(hikes => {
-//       res.render('hikes-index', { hikes: hikes });
-//     })
-// })
-
-
   
 // CREATE
 app.post('/hikes', (req, res) => {
@@ -116,7 +96,7 @@ app.delete('/hikes/:id', (req, res) => {
     });
 })
 
-
+require('./controllers/hikes')(app, models);
 
 // Choose a port to listen on
 const port = process.env.PORT || 3000;
