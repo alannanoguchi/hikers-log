@@ -1,0 +1,18 @@
+<!-- events-index -->
+  <div class="row mt-4">
+      <div class="col-lg-6 offset-lg-3">
+          <h1>Hikes</h1>
+          {{#each hikes}}
+            <div class="card mt-3">
+                <img class="card-img-top" src="{{this.dataValues.imgUrl}}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.dataValues.title}}</h5>
+                    <p class="card-text">{{this.dataValues.desc}}</p>
+                    <div class="text-right">
+                        <a href="#" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+      </div>
+  </div>
