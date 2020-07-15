@@ -5,7 +5,7 @@ const Hike = require('../models/hike')
 module.exports = function (app) {
     // Index 
     app.get('/', (req, res) => {
-       Hike.find({}).sort('location')
+       Hike.find({}).sort('name') //sorts alphabetical order 
         .then((hikes) => {
             res.render('hikes-index', {hikes})
             // {hikes, currentUser})
