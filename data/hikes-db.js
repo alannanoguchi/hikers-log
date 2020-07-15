@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const url = "mongodb://localhost:27017/hikes-db";
+const url = process.env.MONGODB_URI || "mongodb://localhost:27017/hikes-db";
 mongoose.Promise = global.Promise;
 mongoose.connect(
   url,
