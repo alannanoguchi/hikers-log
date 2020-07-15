@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row mt-4">
         <div class="col-lg-6 offset-lg-3">
-            <h1>Locations: </h1>
+            <h1>Hikes by State: </h1>
             {{#each hikes}}
                 <div class="card mt-3">
                     <img class="card-img-top" src="{{this.imgUrl}}" alt="Card image cap">
@@ -10,7 +10,8 @@
                         <h5 class="card-title">{{this.name}}</h5>
                         <p class="card-text">{{this.desc}}</p>
                         <div class="text-right">
-                            <a href="/hikes/new" class="btn btn-primary">Add</a>
+                            <a href="/hikes/{{this.id}}" class="btn btn-primary">View</a>
+                            {{!-- <a href="/hikes/new" class="btn btn-primary">Add</a> --}}
                         </div>
                     </div>
                 </div>
