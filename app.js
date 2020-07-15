@@ -5,6 +5,8 @@ const app = express();
 
 // INITIALIZE BODY-PARSER AND ADD IT TO APP
 const bodyParser = require('body-parser');
+app.set('view engine', 'ejs');
+app.use(express.static("public"));
 
 // const models = require('./db/models');
 
@@ -16,6 +18,11 @@ const hbs = exphbs.create({
     defaultLayout: 'main',
     handlebars: allowInsecurePrototypeAccess(handlebars),
 });
+
+
+//the task array with initial placeholders for added task
+var task = ["buy socks", "practice with nodejs"];
+
 
 require('./data/hikes-db')
 

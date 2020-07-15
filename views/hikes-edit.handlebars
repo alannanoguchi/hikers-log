@@ -8,7 +8,7 @@
                 </div>
                 <div class="card-text">
                     <form action="/hikes/{{hike.id}}?_method=PUT" method="post">
-                        {{> hikes-form }}
+                        {{> hikes-list-form }}
                         <div class="text-right">
                             <a href="/hikes/{{hike.id}}" class='text-muted mr-2'>Cancel</a>
                             <button type="submit" class="btn btn-success" name="button">Update</button>

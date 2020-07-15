@@ -67,4 +67,15 @@ module.exports = function (app) {
             console.log(err);
         });
     })
+
+    // Add location
+    app.post('/hikes/:id/add', function (req, res) {
+        Hike.findById(req.params.id).then((hike) => {
+            // If the id is for a valid hike, show it
+                res.render('hikes-show', { hike })
+            }).catch((err) => {
+                // if the id was for a hike not in our db, log an error
+                console.log(err.message);
+            })
+        })
 }
