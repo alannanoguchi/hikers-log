@@ -5,9 +5,13 @@ const Hike = require('../models/hike')
 module.exports = function (app) {
     // Index 
     app.get('/', (req, res) => {
-       Hike.find({})
+       Hike.find({}).sort('location')
         .then((hikes) => {
             res.render('hikes-index', {hikes})
+            // {hikes, currentUser})
+        })
+        .catch(err => {
+            console.log(err.message);
         })
     })
 
