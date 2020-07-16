@@ -5,9 +5,10 @@ const Hike = require('../models/hike')
 module.exports = function (app) {
     // Index 
     app.get('/', (req, res) => {
+        const currentUser = req.user;
        Hike.find({}).sort('name') //sorts alphabetical order 
         .then((hikes) => {
-            res.render('hikes-index', {hikes})
+            res.render('hikes-index', {hikes, currentUser})
             // {hikes, currentUser})
         })
         .catch(err => {
@@ -31,10 +32,11 @@ module.exports = function (app) {
 
     // SHOW
     app.get('/hikes/:id', (req, res) => {
+        const currentUser = req.user;
         // Search for the hike by its id that was passed in via req.params
         Hike.findById(req.params.id).then((hike) => {
         // If the id is for a valid hike, show it
-            res.render('hikes-show', { hike})
+            res.render('hikes-show', { hike, currentUser})
         }).catch((err) => {
             // if the id was for a hike not in our db, log an error
             console.log(err.message);
@@ -43,8 +45,9 @@ module.exports = function (app) {
 
     // EDIT
     app.get('/hikes/:id/edit', (req, res) => {
+        const currentUser = req.user;
         Hike.findById(req.params.id).then((hike) => {
-          res.render('hikes-edit', { hike });
+          res.render('hikes-edit', { hike, currentUser });
         }).catch((err) => {
           console.log(err.message);
         })
@@ -52,16 +55,21 @@ module.exports = function (app) {
 
     // UPDATE
     app.post('/hikes/:id/edit', (req, res) => {
-        Hike.findById(req.params.id).then(hike => {
-            hike.location= req.body.location
-            hike.visited = req.body.visited
-            hike.save()
-            .then(h => {
-                res.redirect(`/hikes/${req.params.id}`);
-            })
-            }).catch((err) => {
-                console.log(err);
-        });
+   
+        if (req.user){
+            Hike.findById(req.params.id).then(hike => {
+                hike.location= req.body.location
+                hike.visited = req.body.visited
+                hike.save()
+                .then(h => {
+                    res.redirect(`/hikes/${req.params.id}`);
+                })
+                }).catch((err) => {
+                    console.log(err);
+            });
+        } else {
+            res.redirect('/login')
+        }
     });
 
     // DELETE

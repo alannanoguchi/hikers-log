@@ -11,7 +11,13 @@
                         {{> hikes-list-form }}
                         <div class="text-right">
                             <a href="/hikes/{{hike.id}}" class='text-muted mr-2'>Cancel</a>
-                            <button type="submit" class="btn btn-info" name="button">Update</button>
+                            {{#if currentUser}}
+                                <button type="submit" class="btn btn-info" name="button">Update</button>
+           
+                            {{else}}
+                                <a href="/login" class="btn btn-success navbar-btn">Login</a>
+            
+                            {{/if}}
                             {{!-- <a href='/hikes/{{hike.id}}/delete'><button type="button" class='btn btn-danger'>Delete</button></a> --}}
                               
                         </div>
