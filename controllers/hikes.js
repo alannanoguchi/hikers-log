@@ -51,13 +51,14 @@ module.exports = function (app) {
     });
 
     // UPDATE
-    app.put('/hikes/:id', (req, res) => {
+    app.post('/hikes/:id/edit', (req, res) => {
         Hike.findById(req.params.id).then(hike => {
-            hike.update(req.body).then(hike => {
+            hike.location= req.body.location
+            hike.visited = req.body.visited
+            hike.save()
+            .then(h => {
                 res.redirect(`/hikes/${req.params.id}`);
-            }).catch((err) => {
-                console.log(err);
-            });
+            })
             }).catch((err) => {
                 console.log(err);
         });

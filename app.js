@@ -52,7 +52,7 @@ const checkAuth = (req, res, next) => {
 
     next();
   };
-// app.use(checkAuth);
+app.use(checkAuth);
 
 
 // Set db
@@ -60,7 +60,7 @@ require('./data/hikes-db');
 
 // Must be at the bottom on server.js
 require('./controllers/hikes.js')(app);
-// require('./controllers/auth.js')(app);
+require('./controllers/auth.js')(app);
 
 // Choose a port to listen on
 const port = process.env.PORT || 3000;
