@@ -18,7 +18,7 @@
     "express": "^4.17.1",
     "express-handlebars": "^5.0.0",
     "express-validator": "^5.3.1",
-    "handlebars": "^4.7.6",
+    "handlebars": "^4.7.7",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.9.24",
@@ -28,7 +28,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "handlebars": "^4.7.6",
+    "handlebars": "^4.7.7",
     "mocha": "^8.0.1"
   }
 }
